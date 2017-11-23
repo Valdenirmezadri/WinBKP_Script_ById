@@ -2,7 +2,7 @@
 # versao 0.1
 #
 # INFORMAÇÕES
-#   copia_email.sh         
+#   WinBKP_Script_ById.ps1         
 #
 # DESCRICAO
 #    Script para Fazer backup em discos especificados pelo ID do volume;
@@ -123,10 +123,11 @@ function SelecionaUSB(){
 function backup() {
     If (($CHECK_BACKUP.JobState -eq "Running")) {
         echo "Backup em Execução:" $CHECK_BACKUP.CurrentOperation;
-        sleep 4;
-        backupNAS
+        sleep 300;
+        backup
         }else{
             $DESTINO=$DESTINO.TrimEnd('\')
+            echo "Iniciando Backup para a USB...";
             wbadmin start backup -backuptarget:"""$DESTINO""" -allcritical -vssFull -hyperv:"""$VM""" -quiet
         }
 }
@@ -159,7 +160,7 @@ function backupNAS() {
     $CHECK_BACKUP =Get-WBJob;
     If (($CHECK_BACKUP.JobState -eq "Running")) {
         echo "Backup em Execução:" $CHECK_BACKUP.CurrentOperation;
-        sleep 4;
+        sleep 300;
         backupNAS
         }else{
             $DESTINO_NAS=$NAS.TrimEnd('\');
