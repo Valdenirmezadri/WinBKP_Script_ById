@@ -7,7 +7,7 @@
 # DESCRICAO
 #    Script para Fazer backup em discos especificados pelo ID do volume;
 #    Verifica o status da replicação de VM - Peguei essa função aqui: https://goo.gl/LHVqax 
-#    Envia e-mail com o relatório do backup e avisos
+#    Envia e-mail com o relatório do backup e avisos. Não lembro de onde copiei essa função, ja modifiquei um monte ela.
 #
 # NOTA
 #   Testado e desenvolvido em Windows 2012 R2
