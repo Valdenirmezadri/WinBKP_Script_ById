@@ -23,6 +23,7 @@ $VM=(Get-VM).Name -join ',';  #Pega todas as VM
 $USB1="\\?\Volume{1744d4e6-b67d-4b6e-970f-069ce80a61cc}\";  #disco de backup1
 $USB2="\\?\Volume{ff86805f-4b3c-48a1-bcae-54b952666762}\"; #disco de Backup2
 $USB3="\\?\Volume{a6dc80e2-8df5-49a8-b8c9-e2beab5a670b}\";  #disco de backup3
+$NAS="\\?\Volume{5bf053ba-5beb-4ed9-8a41-102cc3a25e1f}\"; #Volume do NAS
 
 ################### Variáveis de e-mail #############################################################
    
@@ -120,8 +121,14 @@ function SelecionaUSB(){
 
 #faz o backup, é chamado dentro da função SelecionaBackup
 function backup() {
-$DESTINO=$DESTINO.TrimEnd('\')
-wbadmin start backup -backuptarget:"""$DESTINO""" -allcritical -vssFull -hyperv:"""$VM""" -quiet
+    If (($CHECK_BACKUP.JobState -eq "Running")) {
+        echo "Backup em Execução:" $CHECK_BACKUP.CurrentOperation;
+        sleep 4;
+        backupNAS
+        }else{
+            $DESTINO=$DESTINO.TrimEnd('\')
+            wbadmin start backup -backuptarget:"""$DESTINO""" -allcritical -vssFull -hyperv:"""$VM""" -quiet
+        }
 }
 
 
@@ -147,8 +154,24 @@ function limpa(){
     if(Test-Path variable:\subject2){Remove-Variable -Scope global  subject2;}
 }
 
+#faz o backup para o NAS, 
+function backupNAS() {
+    $CHECK_BACKUP =Get-WBJob;
+    If (($CHECK_BACKUP.JobState -eq "Running")) {
+        echo "Backup em Execução:" $CHECK_BACKUP.CurrentOperation;
+        sleep 4;
+        backupNAS
+        }else{
+            $DESTINO_NAS=$NAS.TrimEnd('\');
+            echo "Iniciando Backup para o NAS...";
+            wbadmin start backup -backuptarget:"""$DESTINO_NAS""" -allcritical -vssFull -hyperv:"""$VM""" -quiet;
+       }
+}
+
+#Chama as funções em ordem
 ReplicacaoStatus;
 SelecionaUSB;
+backupNAS
 sendEmail $emailFrom $emailTo $subject2$subject $body $smtpServer $ANEXO;
 limpa
 
