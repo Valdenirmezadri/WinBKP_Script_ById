@@ -26,12 +26,12 @@ $USB3="\\?\Volume{XXXXXXXXX-8df5-49a8-b8c9-e2beab5a670b}\";  #disco de backup3
 $NAS="\\?\Volume{5bf053ba-5beb-4ed9-8a41-102cc3a25e1f}\"; #Volume do NAS
 
 ################### Variáveis de e-mail #############################################################
-$emailFrom = "backup@dujua.com.br";
-#$emailTo = "junior.backup@hardtec.srv.br,engenhariaeintegracao@dujua.com.br";
-$emailTo = "junior@hardtec.srv.br";
-$subject = "Dujua - Backup das Máquinas virtuais replicadas";
+$emailFrom = "backup@dominio.com.br";
+#$emailTo = "junior.backup@dominio.srv.br,cliente@dominio.com.br";
+$emailTo = "junior@dominio.srv.br";
+$subject = "cliente - Backup das Máquinas virtuais replicadas";
 $body = "Relatório de replicação dos dados";
-$smtpServer = "mail.dujua.com.br";
+$smtpServer = "mail.dominio.com.br";
 
 #################### Não alterar a partir daqui  ####################################################
 $Dir_local = [System.IO.Path]::GetDirectoryName($myInvocation.MyCommand.Definition);
