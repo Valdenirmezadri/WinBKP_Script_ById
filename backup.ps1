@@ -18,8 +18,6 @@
 #  MODIFICADO_POR		(DD/MM/YYYY)
 #
 ############## Variáveis do Backup  #################################################################
-$VM=(Get-VM).Name -join ',';  #Pega todas as VM
-
 $USB1="\\?\Volume{8bab03b1-8a11-49c2-9080-30262278fb31}\";  #disco de backup1
 $USB2="\\?\Volume{ad0d1499-0cf9-4c0a-a816-28477060729f}\";  #disco de Backup2
 $USB3="\\?\Volume{XXXXXXXXX-8df5-49a8-b8c9-e2beab5a670b}\";  #disco de backup3
@@ -34,6 +32,7 @@ $body = "Relatório de replicação dos dados";
 $smtpServer = "mail.dominio.com.br";
 
 #################### Não alterar a partir daqui  ####################################################
+$VM=(Get-VM).Name -join ',';  #Pega todas as VM
 $Dir_local = [System.IO.Path]::GetDirectoryName($myInvocation.MyCommand.Definition);
 $LOG="$Dir_local\log\log.txt";
 $ANEXO=$LOG;
